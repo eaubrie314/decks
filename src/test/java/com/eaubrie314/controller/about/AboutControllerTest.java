@@ -1,5 +1,4 @@
 package com.eaubrie314.controller.about;
-
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.HttpClient;
@@ -12,7 +11,7 @@ import javax.inject.Inject;
 import static org.junit.jupiter.api.Assertions.*;
 
 @MicronautTest
-class AboutTest {
+class AboutControllerTest {
 
 
     @Inject

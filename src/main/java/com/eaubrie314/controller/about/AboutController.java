@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
-public class About {
-    static Logger log = LoggerFactory.getLogger(About.class);
+public class AboutController {
+    static Logger log = LoggerFactory.getLogger(AboutController.class);
     @Get(uri = "/about", produces = MediaType.APPLICATION_JSON)
     HttpResponse<AboutResponseDTO> about() {
         log.info("about info called");

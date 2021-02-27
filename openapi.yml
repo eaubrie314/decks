@@ -1,0 +1,24 @@
+openapi: 3.0.1
+info:
+  title: Decks Service
+  description: This is a service create and shuffle virtual decks of cards
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /decks/v1/{name}:
+    put:
+      summary: Update an existing pet
+      operationId: createNewDeck
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        201:
+          description: Created
