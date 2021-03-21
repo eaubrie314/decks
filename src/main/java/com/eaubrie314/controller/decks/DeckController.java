@@ -9,12 +9,22 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Put;
 
+import java.util.stream.Collectors;
+
 @Controller
 public class DeckController {
     @Put(uri = "/decks/{deckName}", produces = MediaType.APPLICATION_JSON)
     HttpResponse<?> deck(@PathVariable String deckName) {
         DecksService decksService = new DecksServiceImpl();
-        decksService.createDeck(deckName);
-        return HttpResponse.created("");
+        Deck deck = decksService.createDeck(deckName);
+        return HttpResponse.created(DeckDTO.builder()
+                .name(deck.getName())
+                .cards(deck.getCards().stream()
+                    .map(card -> CardDTO.builder()
+                            .suit(card.getSuit())
+                            .name(card.getName())
+                            .build())
+                .collect(Collectors.toList()))
+                .build());
     }
 }
