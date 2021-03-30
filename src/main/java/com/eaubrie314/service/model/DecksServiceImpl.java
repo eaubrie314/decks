@@ -1,5 +1,8 @@
 package com.eaubrie314.service.model;
 
+import javax.inject.Singleton;
+
+@Singleton
 public class DecksServiceImpl implements DecksService {
 
     @Override

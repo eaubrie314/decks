@@ -8,14 +8,18 @@ import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Put;
+import lombok.RequiredArgsConstructor;
 
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Controller
 public class DeckController {
+
+    private final DecksService decksService;
+
     @Put(uri = "/decks/{deckName}", produces = MediaType.APPLICATION_JSON)
-    HttpResponse<?> deck(@PathVariable String deckName) {
-        DecksService decksService = new DecksServiceImpl();
+    HttpResponse<DeckDTO> deck(@PathVariable String deckName) {
         Deck deck = decksService.createDeck(deckName);
         return HttpResponse.created(DeckDTO.builder()
                 .name(deck.getName())
