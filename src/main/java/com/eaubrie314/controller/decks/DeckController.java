@@ -10,9 +10,10 @@ import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Put;
 import lombok.RequiredArgsConstructor;
 
+import javax.inject.Inject;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_={@Inject} )
 @Controller
 public class DeckController {
 

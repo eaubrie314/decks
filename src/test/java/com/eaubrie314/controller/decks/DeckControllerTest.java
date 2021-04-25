@@ -68,7 +68,7 @@ class DeckControllerTest {
                     null)
                 .accept(MediaType.APPLICATION_JSON);
         HttpResponse<String> response = client.toBlocking()
-                .exchange(request);
+                .exchange(request, String.class);
 
         assertEquals(HttpStatus.CREATED, response.getStatus());
         assertTrue(response.getBody().isPresent());
