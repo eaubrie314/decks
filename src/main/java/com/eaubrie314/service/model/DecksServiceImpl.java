@@ -1,14 +1,18 @@
 package com.eaubrie314.service.model;
 
+import com.eaubrie314.repo.DeckRepo;
+import lombok.RequiredArgsConstructor;
+
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@RequiredArgsConstructor(onConstructor_={@Inject})
 @Singleton
 public class DecksServiceImpl implements DecksService {
 
@@ -27,10 +31,13 @@ public class DecksServiceImpl implements DecksService {
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
 
+    private final DeckRepo repo;
 
     @Override
     public Deck createDeck(String name) {
-        return new Deck(name, ALL_CARDS);
+        Deck deck = new Deck(name, ALL_CARDS);
+        Deck savedDeck = repo.saveDeck(deck);
+        return savedDeck;
     }
 
     @Override

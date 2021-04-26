@@ -1,24 +1,31 @@
 package com.eaubrie314.service.model;
 
+import com.eaubrie314.repo.DeckRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class DecksServiceImplTest {
 
     DecksService service;
+    DeckRepo repo;
 
     @BeforeEach
     void setUp() {
-        service = new DecksServiceImpl();
+        repo = mock(DeckRepo.class);
+        service = new DecksServiceImpl(repo);
+    }
+
+    @Test
+    void testCreateDeckSavesDeck() {
+        Deck result = service.createDeck("createdDeck");
+        verify(repo, times(1)).saveDeck(any());
     }
 
     @Test
