@@ -34,6 +34,7 @@ class DeckControllerTest {
             Arrays.asList("A", "K", "Q", "J"))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
+
     private static final List<Card> ALL_CARDS = Arrays.stream(Suit.values())
             .map(suit -> ALL_CARD_NAMES.stream()
                     .map(name -> makeCard(name, suit))
