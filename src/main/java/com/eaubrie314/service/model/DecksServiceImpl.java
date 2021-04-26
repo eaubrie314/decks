@@ -1,13 +1,14 @@
 package com.eaubrie314.service.model;
 
 import javax.inject.Singleton;
+import java.util.Collections;
 
 @Singleton
 public class DecksServiceImpl implements DecksService {
 
     @Override
     public Deck createDeck(String name) {
-        throw new RuntimeException("fix me");
+        return new Deck(name, Collections.emptyList());
     }
 
     @Override
