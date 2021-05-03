@@ -47,7 +47,12 @@ public class DecksServiceImpl implements DecksService {
 
     @Override
     public void deleteDeck(String name) {
-        throw new RuntimeException("fix me");
+        repo.deleteDeck(name);
+    }
+
+    @Override
+    public Deck getDeck(String name) {
+        return repo.getDeck(name);
     }
 
     private static Card makeCard(String name, Suit suit) {

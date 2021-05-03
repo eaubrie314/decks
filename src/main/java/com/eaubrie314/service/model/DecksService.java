@@ -4,4 +4,5 @@ public interface DecksService {
     Deck createDeck(String name);
     Deck shuffleDeck(String name);
     void deleteDeck(String name);
+    Deck getDeck(String name);
 }
