@@ -43,7 +43,7 @@ class DecksServiceImplTest {
 
     @Test
     void testCreateDeckSavesDeck() {
-        Deck result = service.createDeck("createdDeck");
+        service.createDeck("createdDeck");
         verify(repo, times(1)).saveDeck(any());
     }
 

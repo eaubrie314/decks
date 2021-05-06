@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -73,6 +72,37 @@ class DeckControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatus());
         assertTrue(response.getBody().isPresent());
+    }
+
+    @Test
+    void testGetDeck() {
+        when(service.getDeck(anyString())).thenReturn(EXPECTED_DECK);
+        String deck = "CardDeck";
+        MutableHttpRequest<String> request = new SimpleHttpRequest<String>(
+                    HttpMethod.GET,
+                    "/decks/" + deck,
+                    null)
+                .accept(MediaType.APPLICATION_JSON);
+        HttpResponse<String> response = client.toBlocking()
+                .exchange(request, String.class);
+
+        assertEquals(HttpStatus.OK, response.getStatus());
+        assertTrue(response.getBody().isPresent());
+    }
+
+    @Test
+    void testDeleteDeck() {
+        String deck = "CardDeck";
+        MutableHttpRequest<String> request = new SimpleHttpRequest<String>(
+                    HttpMethod.DELETE,
+                    "/decks/" + deck,
+                    null)
+                .accept(MediaType.APPLICATION_JSON);
+        HttpResponse<String> response = client.toBlocking()
+                .exchange(request, String.class);
+
+        assertEquals(HttpStatus.OK, response.getStatus());
+        assertFalse(response.getBody().isPresent());
     }
 
     private static Card makeCard(String name, Suit suit) {
