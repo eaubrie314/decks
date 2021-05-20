@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  decks:
+    platform: linux/x86_64
+    image: adoptopenjdk/openjdk11:jre-11.0.11_9-alpine
+    command: java -jar /opt/app/decks-0.1-all.jar
+    ports:
+      - 8080:8080
+    volumes:
+      - $PWD/build/libs/:/opt/app/decks-0.1-all.jar
+    networks:
+      - cloud
+    depends_on:
+      - table-maker
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    command: "-jar DynamoDBLocal.jar -sharedDb -optimizeDbBeforeStartup -dbPath ./data"
+    working_dir: /home/dynamodblocal
+    ports:
+      - 8000:8000
+#    volumes:
+#      - "./docker/dynamodb:/home/dynamodblocal/data"
+    networks:
+      - cloud
+  table-maker:
+    platform: linux/x86_64
+    image: mesosphere/aws-cli
+    entrypoint: sleep 10s && sh /project/scripts/dynamodb-create-table.sh
+    environment:
+      - "AWS_ACCESS_KEY_ID=bogus"
+      - "AWS_SECRET_ACCESS_KEY=bogus"
+      - "AWS_REGION=us-east-1"
+    volumes:
+      - $PWD:/project
+    networks:
+      - cloud
+    depends_on:
+      - dynamodb
+networks:
+  cloud:
+    name: "${COMPOSE_PROJECT_NAME}${GIT_COMMIT}${BUILD_NUMBER}_cloud"
