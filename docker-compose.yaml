@@ -7,25 +7,23 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - $PWD/build/libs/:/opt/app/decks-0.1-all.jar
+      - $PWD/build/libs/decks-0.1-all.jar:/opt/app/decks-0.1-all.jar
     networks:
       - cloud
     depends_on:
       - table-maker
   dynamodb:
     image: amazon/dynamodb-local:latest
-    command: "-jar DynamoDBLocal.jar -sharedDb -optimizeDbBeforeStartup -dbPath ./data"
+    command: "-jar DynamoDBLocal.jar -sharedDb -inMemory ./data"
     working_dir: /home/dynamodblocal
     ports:
       - 8000:8000
-#    volumes:
-#      - "./docker/dynamodb:/home/dynamodblocal/data"
     networks:
       - cloud
   table-maker:
     platform: linux/x86_64
     image: mesosphere/aws-cli
-    entrypoint: sleep 10s && sh /project/scripts/dynamodb-create-table.sh
+    entrypoint: sh /project/scripts/dynamodb-create-table.sh
     environment:
       - "AWS_ACCESS_KEY_ID=bogus"
       - "AWS_SECRET_ACCESS_KEY=bogus"
